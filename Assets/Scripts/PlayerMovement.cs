@@ -10,6 +10,8 @@ public class PlayerMovement : MonoBehaviour
     private float jumpValue = 14f;
     private float moveValue = 4f;
 
+    private enum MovementState { idle, running, jumping, falling }
+    
     // Start is called before the first frame update
     private void Start()
     {
@@ -34,19 +36,32 @@ public class PlayerMovement : MonoBehaviour
 
     private void UpdateAnimationState(float direction)
     {
+        MovementState state;
+
         if (direction > 0f)
         {
-            playerAnimation.SetBool("running", true);
+            state = MovementState.running;
             playerSprite.flipX = false;
         }
         else if (direction < 0f)
         {
-            playerAnimation.SetBool("running", true);
+            state = MovementState.running;
             playerSprite.flipX = true;
         }
         else 
         {
-            playerAnimation.SetBool("running", false);
+            state = MovementState.idle;
         }
+
+        if (player.velocity.y > .1f)
+        {
+            state = MovementState.jumping;
+        }
+        else if (player.velocity.y < -.1f)
+        {
+            state = MovementState.falling;
+        }
+
+        playerAnimation.SetInteger("state", (int)state);
     }
 }
