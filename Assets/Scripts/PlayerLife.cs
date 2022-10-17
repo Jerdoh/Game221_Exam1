@@ -8,8 +8,7 @@ public class PlayerLife : MonoBehaviour
     private Rigidbody2D player;
     private Animator playerAnimator;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         player = GetComponent<Rigidbody2D>();
         playerAnimator = GetComponent<Animator>();        
@@ -17,7 +16,7 @@ public class PlayerLife : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Trap"))
         {
             Die();
         }
